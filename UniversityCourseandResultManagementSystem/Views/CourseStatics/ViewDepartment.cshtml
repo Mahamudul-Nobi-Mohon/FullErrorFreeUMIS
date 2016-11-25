@@ -1,0 +1,83 @@
+﻿@using UniversityCourseandResultManagementSystem.Models
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Department> departments = ViewBag.Departments;
+    List<CourseStatics> courseStaticses = ViewBag.CourseStaticses;
+}
+
+<div class="form-group col-md-8 col-md-offset-2">
+    <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">Course Statics</h1>
+
+    <form method="POST" id="CourseStaticsForm">
+        @if (ViewBag.Message != null)
+{
+    <h3 class="alert alert-success">@ViewBag.Message</h3>
+}
+        <div>
+            <label>Department</label>
+
+            <select class="form-control" name="Department">
+                <option value="">--Select Department--</option>
+                @if (departments != null)
+                {
+                    foreach (Department department in departments)
+                    {
+                        <option value="@department.Code">@department.Name</option>
+                    }
+                }
+            </select>
+
+
+        </div>
+        <div>
+            <input type="submit" class="btn btn-info" value="Search" style="margin: 20px 0 20px;" />
+
+        </div>
+        <div>
+            <table id="example" class="table tab-content table-responsive table-bordered">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name/Title</th>
+                        <th>Semester</th>
+                        <th>Assaign to</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name/Title</th>
+                        <th>Semester</th>
+                        <th>Assaign to</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                      @if (courseStaticses != null)
+                        {
+                        <tr>
+                            <th>Code</th>
+                            <th>Name/Title</th>
+                            <th>Semester</th>
+                            <th>Assaign to</th>
+                        </tr>
+                            foreach (CourseStatics courseStatics in courseStaticses)
+                            {
+                                <tr>
+                                    <td>@courseStatics.Code</td>
+                                    <td>@courseStatics.Name</td>
+                                    <td>@courseStatics.Semester</td>
+                                    <td>@courseStatics.Teacher</td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+        </div>
+    </form>
+</div>
+
+
+
+

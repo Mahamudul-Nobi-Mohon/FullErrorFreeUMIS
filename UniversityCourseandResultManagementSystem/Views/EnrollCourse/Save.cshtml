@@ -1,0 +1,255 @@
+﻿@using System.Data.SqlClient
+@using System.Security.Cryptography.X509Certificates
+@using System.Web.UI.WebControls
+@using UniversityCourseandResultManagementSystem.BLL
+@using UniversityCourseandResultManagementSystem.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<StudentEnroll> students = ViewBag.StudentEnrolls;
+    string message = ViewBag.Message;
+
+}
+
+@*<!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Save</title>
+        <style>
+            label.error {
+                color: red;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>*@
+<div class="form-group col-md-8 col-md-offset-2">
+    <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">Enroll Course</h1>
+
+    <form method="POST" id="EnrollCourseForm">
+        @if (message != null)
+        {
+            if (@message == "1")
+            {
+                <h3 class='alert alert-danger'>This Student already enrolled with this Course</h3>
+            }
+            if (@message == "2")
+            {
+                <h3 class='alert alert-success'>Enroll In a Course information Saved Successfully</h3>
+            }
+            if (@message == "3")
+            {
+                <h3 class='alert alert-danger'>Error While Entering data into database</h3>
+            }
+
+        }
+        <div>
+            <label>Student Reg. No</label>
+            <select class="form-control" name="ID" id="ID">
+                @if (students != null)
+                {
+                    <option value="">--Select Student--</option>
+                    foreach (StudentEnroll student in students)
+                    {
+                        <option value="@student.ID">@student.RegistrationNo</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div>
+            <label>Name</label>
+            <input type="text" name="Name" class="form-control" id="Name" value="<View>" readonly="readonly" />
+        </div>
+        <div>
+            <label>Email</label>
+            <input type="text" name="Email" class="form-control" id="Email" value="<View>" readonly="readonly" />
+        </div>
+        <div>
+            <label>Department</label>
+            <input type="text" name="Department" id="Department" value="<View>" class="form-control" readonly="readonly" />
+        </div>
+        <div>
+            <label>Select Course</label>
+            @Html.DropDownList("CourseIDs", new SelectList(string.Empty, "Value", "Text"), "--Select--", new { @class = "form-control" })
+        </div>
+        <div>
+            <label>Date</label>
+            <input id="datePicker" class="form-control" type="date" name="Date" />
+        </div>
+        <div class="col-md-3">
+            <input type="submit" class="form-control btn btn-success" value="Save" style="margin-top: 20px;" />
+        </div>
+    </form>
+
+</div>
+
+@*<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/alertifyjs/alertify.js"></script>
+        <script>
+
+            $(document).ready(function () {
+                $("#EnrollCourseForm").validate({
+                    rules: {
+
+                        ID: "required",
+                        CourseID: "required",
+                        Date: "required"
+                    },
+                    messages: {
+
+                        ID: "Please provide Teacher Name",
+                        CourseID: "Please provide Address",
+                        Date: "Please provide Teacher Name"
+                    }
+                });
+            });
+
+
+        </script>
+
+        <script type="text/javascript">
+
+            $(document)
+                .ready(function () {
+                    $("#ID")
+                        .change(function () {
+                            //for course dropdownlist bind
+                            var checkDepartments = $('#ID').val();
+                            // alert(checkDepartments);
+                            if (checkDepartments != null) {
+                                $("#CourseID").empty();
+                                $.ajax({
+                                    type: 'POST',
+                                    async: false,
+                                    url: '@Url.Action("GetCourseDropdownList","EnrollCourse")',
+                                    dataType: 'json',
+                                    data: { id: $("#ID").val() },
+                                    success: function (subcategories) {
+                                        $("#CourseID")
+                                            .append('<option value="0">--Select--</option>');
+                                        $.each(subcategories,
+                                            function (i, subcategory) {
+                                                $("#CourseID")
+                                                    .append('<option value="' +
+                                                        subcategory.Value +
+                                                        '">' +
+                                                        subcategory.Text +
+                                                        '</option>');
+                                            });
+                                    },
+                                    error: function (ex) {
+                                        alert('Failed to retrieve Course : ' + ex);
+                                    }
+                                });
+                                return false;
+                            };
+                        });
+                });
+
+        </script>
+        <script src="~/Scripts/jquery-3.1.1.js" type="text/javascript"></script>
+        <script src="~/Scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $("#ID").change(function () {
+                    //for course dropdownlist bind
+                    var checkTeacher = $('#ID').val();
+                    // alert(checkDepartments);
+                    if (checkTeacher != null) {
+                        $("#Name").empty();
+                        $.ajax({
+                            type: 'POST',
+                            async: false,
+                            url: '@Url.Action("GetStudentName", "EnrollCourse")',
+                            dataType: 'json',
+                            data: { id: $("#ID").val() },
+                            success: function (data) {
+                                if (data != null) {
+                                    var vdata = data;
+                                    $("#Name").val(vdata);
+                                }
+
+                            },
+                            error: function (ex) {
+                                alert('Failed to retrieve Name : ' + ex);
+                            }
+                        });
+                        return false;
+                    };
+                });
+            });
+
+        </script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $("#ID").change(function () {
+                    //for course dropdownlist bind
+                    var checkTeacher = $('#ID').val();
+                    // alert(checkDepartments);
+                    if (checkTeacher != null) {
+                        $("#Email").empty();
+                        $.ajax({
+                            type: 'POST',
+                            async: false,
+                            url: '@Url.Action("GetStudentEmail", "EnrollCourse")',
+                            dataType: 'json',
+                            data: { id: $("#ID").val() },
+                            success: function (data) {
+                                if (data != null) {
+                                    var vdata = data;
+                                    $("#Email").val(vdata);
+                                }
+                            },
+                            error: function (ex) {
+                                alert('Failed to retrieve Email : ' + ex);
+                            }
+                        });
+                        return false;
+                    };
+                });
+            });
+
+        </script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $("#ID").change(function () {
+                    //for course dropdownlist bind
+                    var checkCourse = $('#ID').val();
+                    // alert(checkDepartments);
+                    if (checkCourse != null) {
+                        $("#Department").empty();
+                        $.ajax({
+                            type: 'POST',
+                            async: false,
+                            url: '@Url.Action("GetStudentDepartment", "EnrollCourse")',
+                            dataType: 'json',
+                            data: { id: $("#ID").val() },
+                            success: function (data) {
+                                if (data != null) {
+                                    var vdata = data;
+                                    $("#Department").val(vdata);
+                                }
+                            },
+                            error: function (ex) {
+                                alert('Failed to retrieve Department : ' + ex);
+                            }
+                        });
+                        return false;
+                    };
+                });
+            });
+
+        </script>
+
+    </body>
+    </html>*@
+
+

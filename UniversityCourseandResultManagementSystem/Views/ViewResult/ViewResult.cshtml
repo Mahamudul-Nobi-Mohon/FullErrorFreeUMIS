@@ -1,0 +1,91 @@
+﻿@using System.Data.SqlClient
+@using System.Security.Cryptography.X509Certificates
+@using System.Web.UI.WebControls
+@using UniversityCourseandResultManagementSystem.BLL
+@using UniversityCourseandResultManagementSystem.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<StudentEnroll> students = ViewBag.StudentList;
+    List<ResultForVIew> resultForVIews = ViewBag.ViewResults;
+    string message = ViewBag.Message;
+
+}
+
+<div class="form-group col-md-8 col-md-offset-2">
+    <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">View Result</h1>
+    <form method="POST" id="SaveResultForm">
+        @if (message != null)
+        {
+            <h3 class="alert alert-success">@message</h3>
+        }
+        <div>
+            <label>Student Reg. No</label>
+            <select class="form-control" name="ID" id="ID">
+                @if (students != null)
+                {
+                    <option value="">--Select Student--</option>
+                    foreach (StudentEnroll student in students)
+                    {
+                        <option value="@student.ID">@student.RegistrationNo</option>
+                    }
+                }
+            </select>
+        </div>
+        <div>
+            <label>Name</label>
+            <input type="text" name="Name" id="Name" value="<View>" readonly="readonly" class="form-control" />
+        </div>
+        <div>
+            <label>Email</label>
+            <input type="text" name="Email" id="Email" value="<View>" readonly="readonly" class="form-control" />
+        </div>
+        <div>
+            <label>Department</label>
+            <input type="text" name="Department" id="Department" value="<View>" readonly="readonly" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <input type="submit" value="Show" class="btn-info btn" style="margin: 20px 0px 20px; width: 100px;" />&nbsp;&nbsp;
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-danger" style="margin: 20px 0px 20px; width: 100px;" id="my_anchor" href="">PDF</a>
+        </div>
+        <div id="ExportTable">
+
+            <table id="example" class="table tab-content table-responsive table-bordered">
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Name</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Name</th>
+                        <th>Grade</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+
+    @if (resultForVIews != null)
+    {
+
+        foreach (ResultForVIew resultForVIew in resultForVIews)
+        {
+            <tr>
+                <td>@resultForVIew.CourseCode</td>
+                <td>@resultForVIew.CourseName</td>
+                <td>@resultForVIew.Grade</td>
+            </tr>
+        }
+            
+    }
+    </tbody>
+            </table>
+        </div>
+
+    </form>
+</div>
+
+

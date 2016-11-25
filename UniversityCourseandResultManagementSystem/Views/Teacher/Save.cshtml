@@ -1,0 +1,88 @@
+﻿@using UniversityCourseandResultManagementSystem.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Department> departments = ViewBag.Departments;
+    List<Designation> designations = ViewBag.Designation;
+    string message = ViewBag.Message;
+}
+
+
+<div class="form-group col-md-8 col-md-offset-2">
+    <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">Teacher Add</h1>
+
+    <form method="POST" id="teacherEntryForm">
+        @if (ViewBag.Message != null)
+        {
+            if (@message == "1")
+            {
+                <h3 class='alert alert-danger'>The Teacher Email Already Exist</h3>
+            }
+            else if (@message == "2")
+            {
+                <h3 class='alert alert-danger'>The Teacher Contact No Already Exist</h3>
+            }
+            else if (@message == "3")
+            {
+                <h3 class='alert alert-success'>The Teacher Information Saved Successfully</h3>
+            }
+            else
+            {
+                <h3 class="alert alert-danger">Error While Entering data into database</h3>
+            }
+
+        }
+        <div>
+            <label>Name</label>
+            <input type="text" name="Name" class="form-control" />
+        </div>
+        <div>
+            <label>Address</label>
+            <input type="text" name="Address" class="form-control" />
+        </div>
+        <div>
+            <label>Email</label>
+            <input type="email" name="Email" class="form-control" />
+        </div>
+        <div>
+            <label>Contact No.</label>
+            <input type="text" name="ContactNo" class="form-control" />
+        </div>
+        <div>
+            <label>Designation</label>
+            <select class="form-control" name="Designation">
+                <option value="">--Select Designation--</option>
+                @if (designations != null)
+                {
+                    foreach (Designation designation in designations)
+                    {
+                        <option value="@designation.ID">@designation.Name</option>
+                    }
+                }
+            </select>
+        </div>
+        <div>
+            <label>Department</label>
+            <select class="form-control" name="Department">
+                <option value="">--Select Department--</option>
+
+                @if (departments != null)
+                {
+                    foreach (Department department in departments)
+                    {
+                        <option value="@department.Code">@department.Name</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div>
+            <label>Credit to be taken</label>
+            <input type="text" name="CreditToBeTaken" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <input type="submit" value="Save" class="form-control btn-success" style="margin-top: 20px;" />
+        </div>
+    </form>
+
+</div>

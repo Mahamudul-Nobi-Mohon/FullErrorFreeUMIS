@@ -1,0 +1,85 @@
+﻿@using System.Data.SqlClient
+@using System.Security.Cryptography.X509Certificates
+@using System.Web.UI.WebControls
+@using UniversityCourseandResultManagementSystem.BLL
+@using UniversityCourseandResultManagementSystem.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<StudentEnroll> students = ViewBag.StudentList;
+    List<Grade> grades = ViewBag.Grades;
+    string message = ViewBag.Message;
+
+}
+
+
+<div class="form-group col-md-8 col-md-offset-2">
+    <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">Save Result</h1>
+
+    <form method="POST" id="SaveResultForm">
+        @if (message != null)
+        {
+            if (@message == "1")
+            {
+                <h3 class='alert alert-danger'>Student result for the corresponding subject already Exist.</h3>
+            }
+            if (@message == "2")
+            {
+                <h3 class='alert alert-success'>Student result to the corresponding subject has been successfully saved</h3>
+            }
+            if (@message == "3")
+            {
+                <h3 class='alert alert-danger'>Error While Entering data into database</h3>
+            }
+        }
+        <div>
+            <label>Student Reg. No</label>
+            <select class="form-control" name="ID" id="ID">
+                @if (students != null)
+                {
+                    <option value="">--Select Student--</option>
+                    foreach (StudentEnroll student in students)
+                    {
+                        <option value="@student.ID">@student.RegistrationNo</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div>
+            <label>Name</label>
+            <input type="text" name="Name" id="Name" value="<View>" readonly="readonly" class="form-control" />
+        </div>
+        <div>
+            <label>Email</label>
+            <input type="text" name="Email" id="Email" value="<View>" readonly="readonly" class="form-control" />
+        </div>
+        <div>
+            <label>Department</label>
+            <input type="text" name="Department" id="Department" value="<View>" readonly="readonly" class="form-control" />
+        </div>
+        <div>
+            <label>Select Course</label>
+            @*@Html.DropDownList("CourseID", new SelectList(string.Empty, "ID", "Name"), "--Select--", new { @class = "form-control" })*@
+            @Html.DropDownList("CoursesID", new SelectList(string.Empty, "ID", "Name"), new { @class = "form-control" })
+        </div>
+        <div>
+            <label>Select Grade Letter</label>
+            <select class="form-control" name="Grade" id="Grade">
+                @if (grades != null)
+                {
+                    <option value="">--Select Grade--</option>
+                    foreach (Grade grade in grades)
+                    {
+                        <option value="@grade.ID">@grade.Name</option>
+                    }
+                }
+            </select>
+
+        </div>
+        <div class="col-md-3">
+            <input type="submit" value="Save" style="margin-top:20px;" class="form-control btn btn-success" />
+        </div>
+    </form>
+
+</div>

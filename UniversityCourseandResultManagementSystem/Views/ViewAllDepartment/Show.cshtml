@@ -1,0 +1,42 @@
+﻿@using UniversityCourseandResultManagementSystem.Models
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Department> departments = ViewBag.Departments;
+}
+
+
+
+        <div class="form-group col-md-8 col-md-offset-2">
+            <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">View All Department</h1>
+            <table id="example" class="table tab-content table-responsive table-bordered">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @if (departments != null)
+                    {
+                        foreach (Department department in departments)
+                        {
+                            <tr>
+                                <td>@department.Code</td>
+                                <td>@department.Name</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+
+        </div>
+   

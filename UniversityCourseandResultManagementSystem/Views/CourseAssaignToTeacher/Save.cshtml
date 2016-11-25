@@ -1,0 +1,87 @@
+﻿@using System.Data.SqlClient
+@using System.Security.Cryptography.X509Certificates
+@using System.Web.UI.WebControls
+@using UniversityCourseandResultManagementSystem.BLL
+@using UniversityCourseandResultManagementSystem.Models
+
+@{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Department> departments = ViewBag.Departments;
+    CourseAssaign creditInfo=new CourseAssaign();
+    string message = ViewBag.Message;
+    
+}
+
+
+<div class="col-md-10 col-md-offset-1">
+    <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">Course Assign To Teacher</h1>
+
+    <form method="POST" id="CourseAssaignForm">
+        @if (message != null)
+{
+    if (@message == "1")
+    {
+        <h3 class='alert alert-danger'>This Course Already Assaign to a teacher</h3>
+    }
+    if (@message == "2")
+    {
+        <h3 class='alert alert-success'>The Course Assaign Information Saved Successfully</h3>
+    }
+    if (@message == "3")
+    {
+        <h3 class='alert alert-danger'>Error While Entering data into database</h3>
+    }
+    @*<h3 class="alert alert-success">@message</h3>*@
+}
+        <div>
+            <label>Department</label>
+
+            <select class="form-control" name="Department" id="DepartmentID">
+                @if (departments != null)
+                {
+                    <option value="">--Select Department--</option>
+                    foreach (Department department in departments)
+                    {
+                        <option value="@department.Code">@department.Name</option>
+                    }
+                }
+            </select>
+
+        </div>
+        <div>
+            <label>Teacher </label>
+            @Html.DropDownList("Teacher", new SelectList(string.Empty, "Value", "Text"), "--Select--", new {@class = "form-control"})
+        </div>
+        <div>
+            <label>Credit To Be Taken</label>
+            <input type="text" class="form-control" name="CreditToBeTaken" id="CreditToBeTaken" value="" readonly="readonly"/>
+        </div>
+        <div>
+            <label>Remaining Credit</label>
+            <input type="text" class="form-control" name="RemainingCredit" id="RemainingCredit" value="" readonly="readonly"/>
+        </div>
+        <div>
+            <label>Course Code</label>
+            @Html.DropDownList("CourseID", new SelectList(string.Empty, "Value", "Text"), "--Select--", new { @class = "form-control" })
+        </div>
+        <div>
+            <label>Name</label>
+            <input type="text" name="Name" class="form-control" id="Name" value="" readonly="readonly"/>
+        </div>
+        <div>
+            <label>Credit</label>
+            <input type="text" class="form-control" name="Credit" id="Credit" value="" readonly="readonly"/>
+        </div>
+
+        <div class="col-md-5">
+            <input type="submit" id="CourseAssignTeacherSaveButton" class="btn btn-success" value="Save" style="margin-top: 20px; width: 100px;"/>
+        </div>
+
+
+    </form>
+
+</div>
+
+   
+

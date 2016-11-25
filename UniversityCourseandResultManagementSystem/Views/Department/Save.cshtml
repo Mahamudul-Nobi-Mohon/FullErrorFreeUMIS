@@ -1,0 +1,89 @@
+﻿@using UniversityCourseandResultManagementSystem.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string message = ViewBag.Message;
+}
+
+@*<!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Department</title>
+        <style>
+            label.error {
+                color: red;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>*@
+<div class="form-group col-md-8 col-md-offset-2">
+    <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">Add Department</h1>
+
+    <form method="POST" id="departmentEntryForm">
+        @if (ViewBag.Message != null)
+        {
+            if (@message == "1")
+            {
+                <h3 class='alert alert-danger'>The Department Code Already Exist</h3>
+            }
+            if (@message == "2")
+            {
+                <h3 class='alert alert-success'>The Department Information Saved Successfully</h3>
+            }
+            if (@message == "3")
+            {
+                <h3 class='alert alert-danger'>The Department Name Already Exist</h3>
+            }
+            if (@message == "4")
+            {
+                <h3 class='alert alert-danger'>Please Check Your Data. Something is Wrong</h3>
+            }
+        }
+        <div class="">
+            <label>Department Code</label>
+            <input type="text" class="form-control" name="Code" />
+        </div>
+        <div class="">
+            <label>Department Name</label>
+            <input type="text" class="form-control" name="Name" />
+        </div>
+
+        <div class="col-md-3">
+
+            <input type="submit" style="margin-top: 20px;" class="form-control btn btn-success" value="Save" />
+        </div>
+    </form>
+
+</div>
+
+@*<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script>
+
+            $(document).ready(function () {
+                $("#departmentEntryForm").validate({
+                    rules: {
+                        Code: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 7
+                        },
+                        Name: "required"
+                    },
+
+                    messages: {
+
+                        Code: {
+                            required: "Please provide Department Code"
+                        },
+                        Name: "Please provide Department name"
+                    }
+                });
+            });
+        </script>
+
+    </body>
+    </html>*@

@@ -1,0 +1,89 @@
+﻿@using UniversityCourseandResultManagementSystem.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<Department> departmentList = ViewBag.Departments;
+    List<Semester> semesterList = ViewBag.Semester;
+    string message = ViewBag.Message;
+}
+
+<div class="col-md-8 col-md-offset-2 form-group">
+    <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">Course Add</h1>
+
+    <form method="POST" id="CourseEntryForm">
+        @if (ViewBag.Message != null)
+        {
+            if (@message == "1")
+            {
+                <h3 class='alert alert-danger'>The Course Code Already Exist</h3>
+            }
+            if (@message == "2")
+            {
+                <h3 class='alert alert-success'>The Course Information Saved Successfully</h3>
+            }
+            if (@message == "3")
+            {
+                <h3 class='alert alert-danger'>The Course Name Already Exist</h3>
+            }
+            if (@message == "4")
+            {
+                <h3 class='alert alert-danger'>Please Check Your Data. Something is Wrong</h3>
+            }
+
+
+        }
+
+
+        <div class="form-group">
+            <label for="formGroupExampleInput">Code</label>
+            <input type="text" class="form-control" name="Code" placeholder="Example input">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Name</label>
+            <input type="text" name="Name" class="form-control" placeholder="Another input">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Credit</label>
+            <input type="text" class="form-control" name="Credit" placeholder="Another input">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Description</label>
+            <input type="text" name="Description" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Department</label>
+
+            <select name="Department" class="form-control">
+                <option value="">--Select Department--</option>
+                @if (departmentList != null)
+                {
+                    foreach (Department department in departmentList)
+                    {
+                        <option value="@department.Code">@department.Name</option>
+                    }
+                }
+            </select>
+
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Semester</label>
+
+            <select name="Semester" class="form-control">
+                <option value="">--Select Semester--</option>
+
+                @if (semesterList != null)
+                {
+                    foreach (Semester semester in semesterList)
+                    {
+                        <option value="@semester.ID">@semester.Name</option>
+                    }
+                }
+            </select>
+
+        </div>
+        <div class="form-group col-md-2">
+            <input class="form-control btn btn-success btn-sm" type="submit" value="Save" />
+        </div>
+    </form>
+</div>

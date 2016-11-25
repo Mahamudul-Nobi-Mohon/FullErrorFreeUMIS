@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string message = ViewBag.Message;
+}
+
+
+
+<div class="form-group col-md-8 col-md-offset-2">
+    <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">Unallocated All Classrooms</h1>
+
+    <form method="POST" id="unallocateclassForm">
+        @if (message != null)
+        {
+
+            if (@message == "2")
+            {
+                <h3 class='alert alert-success'>All Class Room Successfully Unallocated</h3>
+            }
+            else
+            {
+                <h3 class="alert alert-danger">Error While Unallocating Class Room</h3>
+            }
+        }
+        <div>
+            @using (Html.BeginForm())
+            {
+
+                <input type="submit" class="btn btn-danger btn-lg" name="name" value="Unallocate Rooms" style="text-align: center" onclick="return confirm('Are you sure?')" />
+            }
+        </div>
+    </form>
+</div>

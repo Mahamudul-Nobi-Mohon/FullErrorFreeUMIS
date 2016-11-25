@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string message = ViewBag.Message;
+}
+
+
+<div class="form-group col-md-8 col-md-offset-2">
+    <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">Unassign Course</h1>
+
+    <form method="POST" id="unassignCourseForm">
+        @if (message != null)
+        {
+            if (@message == "2")
+            {
+                <h3 class='alert alert-success'>All Course Successfully Unassigned</h3>
+            }
+            else
+            {
+                <h3 class="alert alert-danger">Error While Unassigning Courses</h3>
+            }
+        }
+        <div>
+            @using (Html.BeginForm())
+            {
+
+                <input type="submit" class="btn btn-danger btn-lg" name="name" value="Unassign Courses" onclick="return confirm('Are you sure?')" />
+            }
+        </div>
+    </form>
+</div>

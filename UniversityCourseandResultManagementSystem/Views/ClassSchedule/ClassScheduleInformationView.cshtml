@@ -1,0 +1,98 @@
+﻿@using UniversityCourseandResultManagementSystem.Models
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Department> departments = ViewBag.Departments;
+    List<ClassSchedule> classSchedules = ViewBag.ClassSchedules;
+}
+
+<form method="POST" id="ClassScheduleInformationView">
+    <div class="col-md-10 col-md-offset-1">
+        <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">Class Shedule Information View</h1>
+        @if (ViewBag.Message != null)
+        {
+            <h3 class="alert alert-success">@ViewBag.Message</h3>
+        }
+        <div class="col-md-3">
+            <label class="form-control">Department</label>
+        </div>
+        <div class="col-md-9">
+            <select class="form-control" name="DepartmentId">
+                <option value="" name="">--Select Department--</option>
+                @if (departments != null)
+                {
+                    foreach (Department department in departments)
+                    {
+                        <option value="@department.ID">@department.Name</option>
+                    }
+                }
+            </select>
+            <div class="col-md-3">
+                <input type="submit" class="form-control btn btn-primary" style="margin-top: 20px;" value="Find" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10 col-md-offset-1" style="padding-top: 20px;">
+
+
+        <table id="example" class="table tab-content table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <th>Course Code</th>
+                    <th>Course Name</th>
+                    <th>Schudule Informaton</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Course Code</th>
+                    <th>Course Name</th>
+                    <th>Schudule Informaton</th>
+                </tr>
+            </tfoot>
+            <tbody>
+
+                @if (classSchedules != null)
+                {
+
+                    foreach (ClassSchedule classSchedule in classSchedules)
+                    {
+                        <tr>
+                            <td>@classSchedule.CourseCode</td>
+                            <td>@classSchedule.CourseName</td>
+                            <td style="width:35%">@classSchedule.SchuduleInfo</td>
+                        </tr>
+                    }
+
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+</form>
+
+@*<div class="col-md-8 col-md-offset-2 form-group">
+        <form method="POST" id="ClassScheduleInformationViews">
+            <table class="table tab-content table-responsive table-bordered">
+                <tr>
+                    <th>Course Code</th>
+                    <th>Course Name</th>
+                    <th>Schudule Informaton</th>
+
+                </tr>
+                @if (classSchedules != null)
+                {
+                    foreach (ClassSchedule classSchedule in classSchedules)
+                    {
+                        <tr>
+                            <td>@classSchedule.CourseCode</td>
+                            <td>@classSchedule.CourseName</td>
+                            <td>@classSchedule.SchuduleInfo</td>
+                        </tr>
+                    }
+                }
+            </table>
+        </form>
+    </div>*@

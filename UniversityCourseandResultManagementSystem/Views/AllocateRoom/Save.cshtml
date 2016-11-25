@@ -1,0 +1,105 @@
+﻿@using System.Data.SqlClient
+@using System.Security.Cryptography.X509Certificates
+@using System.Web.UI.WebControls
+@using UniversityCourseandResultManagementSystem.BLL
+@using UniversityCourseandResultManagementSystem.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = null;
+    List<Department> departments = ViewBag.Departments;
+    List<Room> rooms = ViewBag.Rooms;
+    List<Day> days = ViewBag.Days;
+    string message = ViewBag.Message;
+
+}
+
+
+<div class="col-md-8 col-md-offset-2 form-group">
+    <h1 style="text-align: center; color: paleturquoise; font-weight: bold; font-family: fantasy; margin-bottom: 20px;">Allocate Room</h1>
+
+    <form method="POST" id="AllocateRoomForm">
+        @if (message != null)
+        {
+            if (message == "1")
+            {
+                <h3 class="alert alert-danger">Time Conflit with another class. please reallocate time</h3>
+            }
+            else if (message == "2")
+            {
+
+                <h3 class="alert alert-success">The Room Allocation Information Successfully saved</h3>
+            }
+            else
+            {
+                <h3 class="alert alert-danger">There is some error while entering data into database</h3>
+            }
+
+        }
+        <div class="form-group">
+            <label for="formGroupExampleInput">Department</label>
+            <select name="Department" class="form-control" id="Department">
+                @if (departments != null)
+                {
+                    <option value="">--Select Department--</option>
+                    foreach (Department department in departments)
+                    {
+                        <option value="@department.ID">@department.Name</option>
+                    }
+                }
+            </select>
+
+        </div>
+        <div class="form-group">
+            <label>Course</label>
+            @Html.DropDownList("Course", new SelectList(string.Empty, "Value", "Text"), "--Select--", new { @class = "form-control" })
+
+        </div>
+        <div class="form-group">
+            <label>RoomNo</label>
+
+            <select class="form-control" name="RoomNo">
+                @if (rooms != null)
+                {
+                    foreach (Room room in rooms)
+                    {
+                        <option value="@room.ID">@room.Name</option>
+                    }
+                }
+            </select>
+
+        </div>
+        <div>
+            <label>Day</label>
+
+            <select class="form-control" name="Day">
+                @if (days != null)
+                {
+                    foreach (Day day in days)
+                    {
+                        <option value="@day.ID">@day.Name</option>
+                    }
+                }
+            </select>
+            </>
+        </div>
+
+
+        <div class="row col-md-12 form-group">
+            <div class="col-md-6">
+                <label>From Time</label>
+                <input type="time" class="form-control" name="FromTime" id="FromTime" />
+
+            </div>
+            <div class="col-md-6 ">
+                <label>To Time</label>
+                <input type="time" class="form-control" name="ToTime" id="ToTime" />
+            </div>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="submit" id="mohon" class="form-control btn btn-success btn-sm" value="Save" />
+        </div>
+        
+    </form>
+</div>
+
